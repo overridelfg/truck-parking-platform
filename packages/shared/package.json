@@ -1,0 +1,7 @@
+{
+  "name": "@truck-parking-platform/shared",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "index.d.ts"
+}

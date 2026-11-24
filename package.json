@@ -1,0 +1,9 @@
+{
+  "name": "truck-parking-platform",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "types": "types.d.ts"
+}

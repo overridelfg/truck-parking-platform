@@ -1,0 +1,25 @@
+{
+  "name": "@truck-parking-platform/api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/src/functions/*.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean": "rimraf dist",
+    "prestart": "npm run clean && npm run build",
+    "start": "func start",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@truck-parking-platform/shared": "*",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "18.x",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.12"
+  }
+}
