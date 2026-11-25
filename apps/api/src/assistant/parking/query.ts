@@ -2,7 +2,7 @@ import type {
   AssistantResponse,
   ParkingRequest,
 } from "@truck-parking-platform/shared";
-import { ParkingFilter } from "./parking/schema";
+import { ParkingFilter } from "./schema";
 
 export type AssistantResult = Omit<AssistantResponse, "source">;
 

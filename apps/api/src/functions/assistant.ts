@@ -5,7 +5,7 @@ import { badRequest } from "../errors";
 import { repository } from "../repository";
 import { handle, readJson } from "./http";
 import { parseParkingQuery } from "../assistant/parking/parseParkingQuery";
-import { applyParkingFilter } from "../assistant/query";
+import { applyParkingFilter } from "../assistant/parking/query";
 
 app.http("assistantQuery", {
   methods: ["POST"],
