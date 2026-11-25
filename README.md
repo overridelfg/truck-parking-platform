@@ -121,10 +121,11 @@ The server sets `id` (`parking_<uuid>`) and the initial `status` (`pending`).
 
 ### Backend (`apps/api/src`)
 
-- `functions/`: thin HTTP handlers. They parse input, call domain and repository, and return a response. A `handle()` wrapper converts thrown `HttpError`s into the common error response.
+- `functions/`: thin HTTP handlers. They parse input, call domain, repository, or assistant modules, and return a response. A `handle()` wrapper converts thrown `HttpErrors` into the common error response.
 - `domain/`: pure functions with no I/O. `statusTransitions.ts` holds the transition map, `validation.ts` holds zod schemas and `assertValidTransition`. This is where the business rules live and where most tests are.
 - `repository/`: a `ParkingRequestRepository` interface plus an in-memory implementation. Handlers only know the interface, so a database can replace it by changing one line in `repository/index.ts`.
-- `assistant/`: optional AI extension (see below).
+- `assistant/`: domain-scoped AI modules (currently `assistant/parking/`). Each module defines a zod filter schema (`schema.ts`), LLM and rule-based parsers (`parseParkingFilterWithLlm.ts`, `parseParkingFilterWithRules.ts`), a fallback orchestrator (`parseParkingQuery.ts`), and request filtering (`query.ts`).
+- `utils/`: shared AI helpers (`aiClient.ts`, `geminiProvider.ts`, `parseWithLlm.ts`) that wrap Gemini structured JSON calls and validate responses against a zod schema.
 
 Order of checks when updating a status: body format (400), existence (404), transition rules (409).
 
