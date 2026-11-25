@@ -6,7 +6,7 @@ import type {
   TruckType,
   UpdateStatusInput,
 } from "@truck-parking-platform/shared";
-import { badRequest, conflict } from "../errors";
+import { badRequest, conflict, ErrorCode } from "../errors";
 import { canTransition } from "./statusTransitions";
 
 export const TRUCK_TYPES = [
@@ -67,7 +67,7 @@ export function assertValidTransition(
 ): void {
   if (!canTransition(current.status, input.status)) {
     throw conflict(
-      "INVALID_TRANSITION",
+      ErrorCode.INVALID_STATUS_TRANSITION,
       `Cannot change status from '${current.status}' to '${input.status}'`,
     );
   }

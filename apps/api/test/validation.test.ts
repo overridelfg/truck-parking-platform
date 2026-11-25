@@ -5,7 +5,7 @@ import {
   parseCreateInput,
   parseStatusInput,
 } from "../src/domain/validation";
-import { HttpError } from "../src/errors";
+import { ErrorCode, HttpError } from "../src/errors";
 
 const validBody = {
   driverName: "Kirill",
@@ -107,7 +107,7 @@ describe("assertValidTransition", () => {
     expectHttpError(
       () => assertValidTransition(request("pending"), { status: "checked_in" }),
       409,
-      "INVALID_TRANSITION",
+      ErrorCode.INVALID_STATUS_TRANSITION,
     );
   });
 
