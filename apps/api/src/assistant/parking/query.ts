@@ -19,7 +19,7 @@ function overlapsTonight(r: ParkingRequest, now: Date): boolean {
   );
 }
 
-export function applyParkingFilter(
+export function applyParkingRequestFilter(
   filter: ParkingFilter,
   items: ParkingRequest[],
   now = new Date(),

@@ -1,28 +1,29 @@
 import type { AssistantSource } from "@truck-parking-platform/shared";
 import { getAiClient } from "../../utils/aiClient";
 import { parseParkingFilterWithLlm } from "./parseParkingFilterWithLlm";
-import { ParkingFilter } from "./schema";
 import { parseParkingFilterWithRules } from "./parseParkingFilterWithRules";
+import type { ParkingFilter } from "./schema";
 
 export async function parseParkingQuery(
   text: string,
   llmParser: (t: string) => Promise<ParkingFilter> = parseParkingFilterWithLlm,
   hasKey = Boolean(getAiClient()),
-): Promise<{ intent: ParkingFilter; source: AssistantSource }> {
-  if (!hasKey)
-    return { intent: parseParkingFilterWithRules(text), source: "rules" };
+): Promise<{ filter: ParkingFilter; source: AssistantSource }> {
+  if (!hasKey) {
+    return { filter: parseParkingFilterWithRules(text), source: "rules" };
+  }
 
   try {
-    const intent = await llmParser(text);
-    if (intent.kind === "unknown") {
+    const filter = await llmParser(text);
+    if (filter.kind === "unknown") {
       const fallback = parseParkingFilterWithRules(text);
       if (fallback.kind === "filter") {
-        return { intent: fallback, source: "rules" };
+        return { filter: fallback, source: "rules" };
       }
     }
-    return { intent, source: "llm" };
+    return { filter, source: "llm" };
   } catch (e) {
     console.error("parseParkingQuery: LLM failed:", e);
-    return { intent: parseParkingFilterWithRules(text), source: "rules" };
+    return { filter: parseParkingFilterWithRules(text), source: "rules" };
   }
 }
