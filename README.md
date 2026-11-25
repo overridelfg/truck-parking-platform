@@ -85,11 +85,8 @@ API address in `apps/mobile/.env` (`EXPO_PUBLIC_API_URL`):
 
 | Platform | Value |
 |---|---|
-| Web, iOS Simulator | `http://localhost:7071/api` |
-| Android Emulator | `http://10.0.2.2:7071/api` |
-| Physical phone | `http://<computer IP>:7072/api`, with `node apps/api/dev-proxy.js` running |
+| Web, iOS Simulator | `http://localhost:8081` |
 
-Azure Functions Core Tools only listens on `localhost`, which a physical phone cannot reach. `dev-proxy.js` is a tiny TCP proxy that forwards `0.0.0.0:7072` to `localhost:7071`. After changing `.env`, restart Expo with `-c`.
 
 ## API
 
