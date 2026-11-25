@@ -2,7 +2,7 @@ import type { AssistantSource } from "@truck-parking-platform/shared";
 import { getAiClient } from "../../utils/aiClient";
 import { parseParkingFilterWithLlm } from "./parseParkingFilterWithLlm";
 import { ParkingFilter } from "./schema";
-import { parseParkingQueryWithRules } from "./parseParkingQueryWithRules";
+import { parseParkingFilterWithRules } from "./parseParkingFilterWithRules";
 
 export async function parseParkingQuery(
   text: string,
@@ -10,12 +10,12 @@ export async function parseParkingQuery(
   hasKey = Boolean(getAiClient()),
 ): Promise<{ intent: ParkingFilter; source: AssistantSource }> {
   if (!hasKey)
-    return { intent: parseParkingQueryWithRules(text), source: "rules" };
+    return { intent: parseParkingFilterWithRules(text), source: "rules" };
 
   try {
     const intent = await llmParser(text);
     if (intent.kind === "unknown") {
-      const fallback = parseParkingQueryWithRules(text);
+      const fallback = parseParkingFilterWithRules(text);
       if (fallback.kind === "filter") {
         return { intent: fallback, source: "rules" };
       }
@@ -23,6 +23,6 @@ export async function parseParkingQuery(
     return { intent, source: "llm" };
   } catch (e) {
     console.error("parseParkingQuery: LLM failed:", e);
-    return { intent: parseParkingQueryWithRules(text), source: "rules" };
+    return { intent: parseParkingFilterWithRules(text), source: "rules" };
   }
 }

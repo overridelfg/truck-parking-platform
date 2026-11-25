@@ -15,7 +15,7 @@ const TRUCK_TYPE_PATTERNS: [RegExp, TruckType][] = [
   [/solo/i, "solo"],
 ];
 
-export function parseParkingQueryWithRules(text: string): ParkingFilter {
+export function parseParkingFilterWithRules(text: string): ParkingFilter {
   const statuses = STATUS_PATTERNS.filter(([re]) => re.test(text)).map(
     ([, status]) => status,
   );
