@@ -170,7 +170,6 @@ Assumptions: "tonight" means 20:00 to 06:00 in the server's time zone; "unusuall
 - **No authentication, pagination, or rate limiting.**
 - **Assistant:** only questions expressible through the existing filters are supported. The keyword fallback does not handle typos (the LLM usually does) or negation ("not approved").
 - **Time zones:** dates are ISO 8601 strings; "tonight" uses the server's local time.
-- **`dev-proxy.js`** exists only because Azure Functions Core Tools binds to localhost; it is a development helper for physical devices.
 
 ## What is missing and how I would continue
 
