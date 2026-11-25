@@ -7,6 +7,24 @@ A small full-stack prototype for managing truck parking requests.
 - **Shared:** TypeScript types used by both apps
 - **Optional AI extension:** a parking assistant (Gemini with a deterministic fallback)
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/c227ddd9-85e1-4dad-a62f-1c4beebd7148" width="240" alt="Request List" />
+      <br />
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/f0fb87a7-3c7b-4ea1-a848-89809953a923" width="240" alt="Request Detail" />
+      <br />
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/b44effdc-3831-40a6-8cac-dc07e4fc07a4" width="240" alt="Status Transition" />
+      <br />
+    </td>
+  </tr>
+</table>
 ## Repository structure
 
 ```
