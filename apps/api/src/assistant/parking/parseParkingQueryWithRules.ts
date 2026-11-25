@@ -1,16 +1,7 @@
 import type { ParkingStatus, TruckType } from "@truck-parking-platform/shared";
+import { ParkingFilter } from "./schema";
 
-export type Intent =
-  | {
-      kind: "filter";
-      statuses?: ParkingStatus[];
-      truckType?: TruckType;
-      tonight?: boolean;
-      longStay?: boolean;
-    }
-  | { kind: "unknown" };
-
-const STATUS_WORDS: [RegExp, ParkingStatus][] = [
+const STATUS_PATTERNS: [RegExp, ParkingStatus][] = [
   [/pending|waiting|ausstehend/i, "pending"],
   [/approved|genehmigt/i, "approved"],
   [/rejected|declined|abgelehnt/i, "rejected"],
@@ -18,23 +9,24 @@ const STATUS_WORDS: [RegExp, ParkingStatus][] = [
   [/checked[ _-]?out|departed|left/i, "checked_out"],
 ];
 
-const TYPE_WORDS: [RegExp, TruckType][] = [
+const TRUCK_TYPE_PATTERNS: [RegExp, TruckType][] = [
   [/tanker/i, "tanker"],
   [/semi/i, "semi"],
   [/solo/i, "solo"],
 ];
 
-export function parseQuery(text: string): Intent {
-  const statuses = STATUS_WORDS.filter(([re]) => re.test(text)).map(
-    ([, s]) => s,
+export function parseParkingQueryWithRules(text: string): ParkingFilter {
+  const statuses = STATUS_PATTERNS.filter(([re]) => re.test(text)).map(
+    ([, status]) => status,
   );
-  const truckType = TYPE_WORDS.find(([re]) => re.test(text))?.[1];
+  const truckType = TRUCK_TYPE_PATTERNS.find(([re]) => re.test(text))?.[1];
   const tonight = /tonight|heute nacht/i.test(text);
   const longStay = /long|unusual|lang/i.test(text);
 
   if (!statuses.length && !truckType && !tonight && !longStay) {
     return { kind: "unknown" };
   }
+
   return {
     kind: "filter",
     ...(statuses.length ? { statuses } : {}),

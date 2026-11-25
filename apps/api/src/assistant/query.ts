@@ -2,7 +2,7 @@ import type {
   AssistantResponse,
   ParkingRequest,
 } from "@truck-parking-platform/shared";
-import type { Intent } from "./intent";
+import { ParkingFilter } from "./parking/schema";
 
 export type AssistantResult = Omit<AssistantResponse, "source">;
 
@@ -19,12 +19,12 @@ function overlapsTonight(r: ParkingRequest, now: Date): boolean {
   );
 }
 
-export function applyIntent(
-  intent: Intent,
+export function applyParkingFilter(
+  filter: ParkingFilter,
   items: ParkingRequest[],
   now = new Date(),
 ): AssistantResult {
-  if (intent.kind === "unknown") {
+  if (filter.kind === "unknown") {
     return {
       answer:
         'I did not understand. Try: "pending requests", "approved tankers", "requests tonight", "unusually long stays".',
@@ -34,10 +34,10 @@ export function applyIntent(
   }
 
   const matches = items.filter((r) => {
-    if (intent.statuses && !intent.statuses.includes(r.status)) return false;
-    if (intent.truckType && r.truckType !== intent.truckType) return false;
-    if (intent.tonight && !overlapsTonight(r, now)) return false;
-    if (intent.longStay) {
+    if (filter.statuses && !filter.statuses.includes(r.status)) return false;
+    if (filter.truckType && r.truckType !== filter.truckType) return false;
+    if (filter.tonight && !overlapsTonight(r, now)) return false;
+    if (filter.longStay) {
       const hours =
         (Date.parse(r.requestedUntil) - Date.parse(r.requestedFrom)) / HOUR;
       if (hours < LONG_STAY_HOURS) return false;
@@ -54,12 +54,13 @@ export function applyIntent(
   };
 
   const firstPending = matches.find((r) => r.status === "pending");
-  if (firstPending && intent.statuses?.includes("pending")) {
+  if (firstPending && filter.statuses?.includes("pending")) {
     result.suggestion = {
       requestId: firstPending.id,
       status: "approved",
       reason: `${firstPending.driverName} is waiting for approval.`,
     };
   }
+
   return result;
 }
