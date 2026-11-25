@@ -7,6 +7,24 @@ A small full-stack prototype for managing truck parking requests.
 - **Shared:** TypeScript types used by both apps
 - **Optional AI extension:** a parking assistant (Gemini with a deterministic fallback)
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/c227ddd9-85e1-4dad-a62f-1c4beebd7148" width="240" alt="Request List" />
+      <br />
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/f0fb87a7-3c7b-4ea1-a848-89809953a923" width="240" alt="Request Detail" />
+      <br />
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/b44effdc-3831-40a6-8cac-dc07e4fc07a4" width="240" alt="Status Transition" />
+      <br />
+    </td>
+  </tr>
+</table>
 ## Repository structure
 
 ```
@@ -67,11 +85,8 @@ API address in `apps/mobile/.env` (`EXPO_PUBLIC_API_URL`):
 
 | Platform | Value |
 |---|---|
-| Web, iOS Simulator | `http://localhost:7071/api` |
-| Android Emulator | `http://10.0.2.2:7071/api` |
-| Physical phone | `http://<computer IP>:7072/api`, with `node apps/api/dev-proxy.js` running |
+| Web, iOS Simulator | `http://localhost:8081` |
 
-Azure Functions Core Tools only listens on `localhost`, which a physical phone cannot reach. `dev-proxy.js` is a tiny TCP proxy that forwards `0.0.0.0:7072` to `localhost:7071`. After changing `.env`, restart Expo with `-c`.
 
 ## API
 
@@ -152,7 +167,6 @@ Assumptions: "tonight" means 20:00 to 06:00 in the server's time zone; "unusuall
 - **No authentication, pagination, or rate limiting.**
 - **Assistant:** only questions expressible through the existing filters are supported. The keyword fallback does not handle typos (the LLM usually does) or negation ("not approved").
 - **Time zones:** dates are ISO 8601 strings; "tonight" uses the server's local time.
-- **`dev-proxy.js`** exists only because Azure Functions Core Tools binds to localhost; it is a development helper for physical devices.
 
 ## What is missing and how I would continue
 
