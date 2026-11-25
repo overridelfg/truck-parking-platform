@@ -50,7 +50,7 @@ export async function parseQueryWithLlm(text: string): Promise<Intent> {
   try {
     const res = await Promise.race([
       ai.models.generateContent({
-        model: process.env.ASSISTANT_MODEL ?? "gemini-3.8-flash",
+        model: process.env.ASSISTANT_MODEL ?? "gemini-3.5-flash-lite",
         contents: text.slice(0, 500),
         config: {
           systemInstruction: SYSTEM,
