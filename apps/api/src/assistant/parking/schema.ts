@@ -1,4 +1,3 @@
-import { Type } from "@google/genai";
 import { z } from "zod";
 import { PARKING_STATUSES, TRUCK_TYPES } from "../../domain/validation";
 
@@ -27,24 +26,3 @@ export const parkingFilterSchema = z
   });
 
 export type ParkingFilter = z.infer<typeof parkingFilterSchema>;
-
-export const responseSchema = {
-  type: Type.OBJECT,
-  properties: {
-    kind: { type: Type.STRING, enum: ["filter", "unknown"] },
-    statuses: {
-      type: Type.ARRAY,
-      items: { type: Type.STRING, enum: [...PARKING_STATUSES] },
-    },
-    truckType: { type: Type.STRING, enum: [...TRUCK_TYPES] },
-    tonight: {
-      type: Type.BOOLEAN,
-      description: "Overlaps tonight 20:00-06:00",
-    },
-    longStay: {
-      type: Type.BOOLEAN,
-      description: "Unusually long stay (over 48 hours)",
-    },
-  },
-  required: ["kind"],
-};

@@ -9,6 +9,7 @@ export class ApiError extends Error {
     public details?: unknown,
   ) {
     super(message);
+    this.name = "ApiError";
   }
 }
 
@@ -28,15 +29,20 @@ export async function request<T>(
         ? { "Content-Type": "application/json", ...init.headers }
         : init.headers,
     });
-  } catch {
+  } catch (err) {
+    const isTimeout = err instanceof Error && err.name === "AbortError";
+    console.error(`API request failed (${API_URL}${path}):`, err);
     throw new ApiError(
       0,
-      "NETWORK_ERROR",
-      `Cannot reach the server at ${API_URL}`,
+      isTimeout ? "TIMEOUT" : "NETWORK_ERROR",
+      isTimeout
+        ? "Request timed out. Please try again."
+        : "Cannot reach the server. Check your connection and try again.",
     );
   } finally {
     clearTimeout(timer);
   }
+
   if (res.status === 204) return undefined as T;
 
   const body = await res.json().catch(() => undefined);
