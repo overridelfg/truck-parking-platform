@@ -8,6 +8,7 @@ import { useParkingRequests } from "../hooks/parkingRequests";
 import { useFilterStore } from "../store/filterStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import { AssistantBar } from "@/components/AssistantBar";
 
 export default function RequestListScreen() {
   const router = useRouter();
@@ -51,6 +52,7 @@ export default function RequestListScreen() {
         ListEmptyComponent={<EmptyView message="No parking requests" />}
         contentContainerStyle={{ paddingVertical: 8 }}
       />
+      <AssistantBar />
     </SafeAreaView>
   );
 }

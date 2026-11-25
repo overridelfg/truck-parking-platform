@@ -9,12 +9,12 @@ import type {
 import { badRequest, conflict } from "../errors";
 import { canTransition } from "./statusTransitions";
 
-const TRUCK_TYPES = [
+export const TRUCK_TYPES = [
   "solo",
   "semi",
   "tanker",
 ] as const satisfies readonly TruckType[];
-const PARKING_STATUSES = [
+export const PARKING_STATUSES = [
   "pending",
   "approved",
   "rejected",

@@ -36,3 +36,23 @@ export interface UpdateStatusInput {
 export interface ApiError {
   error: { code: string; message: string; details?: unknown };
 }
+
+export type AssistantSource = "llm" | "rules";
+
+export interface AssistantSuggestion {
+  requestId: string;
+  status: ParkingStatus;
+  reason: string;
+}
+
+export interface AssistantResponse {
+  answer: string;
+  understood: boolean;
+  matches: ParkingRequest[];
+  source: AssistantSource;
+  suggestion?: AssistantSuggestion;
+}
+
+export interface AssistantQueryInput {
+  query: string;
+}

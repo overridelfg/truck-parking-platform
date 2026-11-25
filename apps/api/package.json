@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
+    "@google/genai": "^3.6.1",
     "@truck-parking-platform/shared": "*",
     "zod": "^4.6.7"
   },

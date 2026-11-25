@@ -15,10 +15,11 @@ export class ApiError extends Error {
 export async function request<T>(
   path: string,
   init: RequestInit = {},
+  timeoutMs = 8000,
 ): Promise<T> {
   let res: Response;
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     res = await fetch(`${API_URL}${path}`, {
       ...init,
